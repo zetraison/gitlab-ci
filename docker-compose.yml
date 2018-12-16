@@ -6,10 +6,11 @@ web:
     GITLAB_OMNIBUS_CONFIG: |
       external_url 'https://gitlab.company.com'
   ports:
-  - '81:80'
   - '443:443'
   - '22:22'
   volumes:
   - '/srv/gitlab/config:/etc/gitlab'
   - '/srv/gitlab/logs:/var/log/gitlab'
   - '/srv/gitlab/data:/var/opt/gitlab'
+  - './tsl/self-signed-ca/gitlab.company.com.key:/etc/gitlab/ssl/gitlab.company.com.key'
+  - './tsl/self-signed-ca/gitlab.company.com.crt:/etc/gitlab/ssl/gitlab.company.com.crt'
