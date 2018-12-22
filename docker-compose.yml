@@ -1,16 +1,39 @@
-web:
-  image: 'gitlab/gitlab-ce:latest'
-  restart: always
-  hostname: 'gitlab.company.com'
-  environment:
-    GITLAB_OMNIBUS_CONFIG: |
-      external_url 'https://gitlab.company.com'
-  ports:
-  - '443:443'
-  - '22:22'
-  volumes:
-  - '/srv/gitlab/config:/etc/gitlab'
-  - '/srv/gitlab/logs:/var/log/gitlab'
-  - '/srv/gitlab/data:/var/opt/gitlab'
-  - './tsl/self-signed-ca/gitlab.company.com.key:/etc/gitlab/ssl/gitlab.company.com.key'
-  - './tsl/self-signed-ca/gitlab.company.com.crt:/etc/gitlab/ssl/gitlab.company.com.crt'
+version: '3'
+services:
+  web:
+    image: 'gitlab/gitlab-ce:latest'
+    restart: always
+    hostname: 'gitlab.company.com'
+    environment:
+      GITLAB_OMNIBUS_CONFIG: |
+        external_url 'https://gitlab.company.com'
+    ports:
+    - '443:443'
+    - '22:22'
+    volumes:
+    - '/srv/gitlab/config:/etc/gitlab'
+    - '/srv/gitlab/logs:/var/log/gitlab'
+    - '/srv/gitlab/data:/var/opt/gitlab'
+    - './tsl/self-signed-ca/gitlab.company.com.key:/etc/gitlab/ssl/gitlab.company.com.key'
+    - './tsl/self-signed-ca/gitlab.company.com.crt:/etc/gitlab/ssl/gitlab.company.com.crt'
+    networks:
+      - default
+
+  gitlab-telegram-bot:
+    build: gtb/
+    environment:
+      TELEGRAM_PROXY_HOST: ${TELEGRAM_PROXY_HOST}
+      TELEGRAM_PROXY_PORT: ${TELEGRAM_PROXY_PORT}
+      TELEGRAM_PROXY_USERNAME: ${TELEGRAM_PROXY_USERNAME}
+      TELEGRAM_PROXY_PASSWORD: ${TELEGRAM_PROXY_PASSWORD}
+      TELEGRAM_BOT_TOKEN: ${TELEGRAM_BOT_TOKEN}
+      TELEGRAM_BOT_CHAT_ID: ${TELEGRAM_BOT_CHAT_ID}
+      GITLAB_WEBHOOK_PORT: ${GITLAB_WEBHOOK_PORT}
+    ports:
+      - '8081:8081'
+    networks:
+      - default
+
+networks:
+  outside:
+    external: false

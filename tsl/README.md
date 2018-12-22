@@ -4,7 +4,7 @@
 
 > openssl req -x509 -new -nodes -key ownCA.key -sha256 -days 1825 -out ownCA.crt
 
-# Install own Root Certificate Authority to local machine (ubuntu) and browsers
+## Install own Root Certificate Authority to local machine (ubuntu) and browsers
 
 > mkdir /usr/share/ca-certificates/own/ownCA.crt
 
@@ -12,13 +12,13 @@
 
 > sudo update-ca-certificates
 
-# Generate self signed Certificate Authority for you site
+## Generate self signed Certificate Authority for you site
 
 > openssl genrsa -out gitlab.company.com.key 2048
 
 > openssl req -new -key gitlab.company.com.key -out gitlab.company.com.csr
 
-# Create ext config file
+### Create ext config file
 
 The config file is needed to define the Subject Alternative Name (SAN) extension
 
