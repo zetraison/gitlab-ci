@@ -20,7 +20,7 @@ services:
       - default
 
   gitlab-telegram-bot:
-    build: gtb/
+    image: 'zetraison/gitlab-telegram-bot:latest'
     environment:
       TELEGRAM_PROXY_HOST: ${TELEGRAM_PROXY_HOST}
       TELEGRAM_PROXY_PORT: ${TELEGRAM_PROXY_PORT}
